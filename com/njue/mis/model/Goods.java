@@ -24,6 +24,32 @@ public class Goods
 	{
 		super();
 	}
+	public Goods(Goods good){
+		this.id = good.getId();
+		this.goodsName = good.getGoodsName();
+		this.producePlace = good.getProducePlace();
+		this.size = good.getSize();
+		this._package = good.get_package();
+		this.productCode = good.getProductCode();
+		this.promitCode = good.getPromitCode();
+		this.price = good.getPrice();
+		this.description = good.getDescription();
+		this.providerId = good.getProviderId();
+		this.available = good.getAvailable();
+	}
+	public void update(Goods good){
+		this.id = good.getId();
+		this.goodsName = good.getGoodsName();
+		this.producePlace = good.getProducePlace();
+		this.size = good.getSize();
+		this._package = good.get_package();
+		this.productCode = good.getProductCode();
+		this.promitCode = good.getPromitCode();
+		this.price = good.getPrice();
+		this.description = good.getDescription();
+		this.providerId = good.getProviderId();
+		this.available = good.getAvailable();
+	}
 	public Goods(String id, String goodsName, String producePlace, String size,
 			String _package, String productCode, String promitCode,
 			String description,double price, String providerId)

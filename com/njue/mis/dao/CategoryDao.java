@@ -7,10 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.njue.mis.model.Category;
+import com.njue.mis.server.Server;
 
 
 public class CategoryDao extends HibernateBase {
@@ -31,6 +30,7 @@ public class CategoryDao extends HibernateBase {
 		this.beginTransaction();
 		String sql = "from Category where cate_id = "+cate_id;
     	Query query = this.session.createQuery(sql);
+		@SuppressWarnings("unchecked")
 		List<Category> list = query.list();
     	this.endTransaction(false);
 		Category category = null;
@@ -64,11 +64,13 @@ public class CategoryDao extends HibernateBase {
 		String sql = "from Category as cate order by cate.prefer_id";
 		Query query = this.session.createQuery(sql);
 		List<Category> list = new ArrayList<Category>();
-		Iterator<Category> iter = list.iterator();
+		@SuppressWarnings("unchecked")
+		Iterator<Category> iter = query.list().iterator();
 		while(iter.hasNext()){
 			list.add(iter.next());
 		}
 		this.endTransaction(false);
+		Server.logger.debug("return to client the number of all the category is "+list.size());
 		return list;
 	}
 	
@@ -79,7 +81,8 @@ public class CategoryDao extends HibernateBase {
     {
     	String sql = "from Category where cate_name='"+category.getCate_name()+"' and prefer_id="+category.getPrefer_id();
     	Query query = this.session.createQuery(sql);
-    	List<Category> list = query.list();
+    	@SuppressWarnings("unchecked")
+		List<Category> list = query.list();
     	if (list.size() > 0)
     	{
     		return true;

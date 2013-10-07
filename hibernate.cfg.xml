@@ -23,7 +23,7 @@
   <property name="show_sql">true</property>
 
   <mapping resource="Category.hbm.xml" />
-
+	<mapping resource="Goods.hbm.xml" />	
  </session-factory>
 
 </hibernate-configuration>

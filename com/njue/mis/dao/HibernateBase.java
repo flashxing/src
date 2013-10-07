@@ -1,9 +1,5 @@
 package com.njue.mis.dao;
 
-import java.util.*;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,6 +18,7 @@ public abstract class HibernateBase
 	}
 	
 	// 帮助方法
+	@SuppressWarnings("deprecation")
 	protected void initHibernate() throws HibernateException {
 		// 装载配置，构造SessionFactory对象
 		sessionFactory = new Configuration().configure().buildSessionFactory();

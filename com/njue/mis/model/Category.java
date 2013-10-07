@@ -27,6 +27,6 @@ public class Category implements Serializable{
 	}
 	@Override
 	public String toString(){
-		return cate_id+" "+cate_name+" "+prefer_id;
+		return cate_name;
 	}
 }

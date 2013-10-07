@@ -16,5 +16,6 @@
    not-null="true" />
  </class>
 
+
 </hibernate-mapping>
 
