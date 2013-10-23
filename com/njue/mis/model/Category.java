@@ -3,6 +3,10 @@ package com.njue.mis.model;
 import java.io.Serializable;
 
 public class Category implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5628914427144743630L;
 	private int cate_id;
 	private String cate_name;
 	private int prefer_id;

@@ -86,7 +86,7 @@ public class GoodsDAO
 			{
 				Goods goods=new Goods(rs.getString("id"),rs.getString("goodsName"),rs.getString("producePlace"),
 									  rs.getString("size"),rs.getString("package"),rs.getString("productCode"),
-									  rs.getString("promitCode"),rs.getString("description"),rs.getDouble("price"),
+									  rs.getString("promitCode"),rs.getString("description"), rs.getDouble("price"),
 									  rs.getString("providerId"));
 				result.add(goods);
 			}

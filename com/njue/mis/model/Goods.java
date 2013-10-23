@@ -4,10 +4,16 @@
 
 package com.njue.mis.model;
 
+import java.io.Serializable;
+
 import com.njue.mis.common.ValidationManager;
 
-public class Goods
+public class Goods implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6982905753217184200L;
 	private String id;  //商品编号
 	private String goodsName;  //商品名称
 	private String producePlace;  //商品产地
@@ -18,8 +24,10 @@ public class Goods
 	private double price;  //价格
 	private String description;  //描述
 	private String providerId;  //供应商编号
-	private int available;  //状态 非0代表可用
-
+	private int cateId;  //状态 非0代表可用
+	private double lastSalePrice;	//最近一次售价
+	private double lastStockPrice; //最近一次进价
+	private int goodsNum;	//商品数量
 	public Goods()
 	{
 		super();
@@ -35,7 +43,10 @@ public class Goods
 		this.price = good.getPrice();
 		this.description = good.getDescription();
 		this.providerId = good.getProviderId();
-		this.available = good.getAvailable();
+		this.cateId = good.getCateId();
+		this.goodsNum = good.goodsNum;
+		this.lastSalePrice = good.lastSalePrice;
+		this.lastStockPrice = good.lastStockPrice;
 	}
 	public void update(Goods good){
 		this.id = good.getId();
@@ -48,7 +59,10 @@ public class Goods
 		this.price = good.getPrice();
 		this.description = good.getDescription();
 		this.providerId = good.getProviderId();
-		this.available = good.getAvailable();
+		this.cateId = good.getCateId();
+		this.goodsNum = good.goodsNum;
+		this.lastSalePrice = good.lastSalePrice;
+		this.lastStockPrice = good.lastStockPrice;
 	}
 	public Goods(String id, String goodsName, String producePlace, String size,
 			String _package, String productCode, String promitCode,
@@ -70,7 +84,7 @@ public class Goods
 	public Goods(String id, String goodsName, String producePlace, String size,
 			String _package, String productCode, String promitCode,
 			String description,double price, String providerId,
-			int available)
+			int cateId)
 	{
 		super();
 		this.id = id;
@@ -83,7 +97,7 @@ public class Goods
 		this.price = price;
 		this.description = description;
 		this.providerId = providerId;
-		this.available = available;
+		this.cateId = cateId;
 	}
 	public String getId()
 	{
@@ -165,13 +179,13 @@ public class Goods
 	{
 		this.providerId = providerId;
 	}
-	public int getAvailable()
+	public int getCateId()
 	{
-		return available;
+		return cateId;
 	}
-	public void setAvailable(int available)
+	public void setCateId(int cateId)
 	{
-		this.available = available;
+		this.cateId = cateId;
 	}
 	
 	public Object getGoodsValue(int columnNumber)
@@ -201,5 +215,23 @@ public class Goods
 		default:
 			return "";
 		}
+	}
+	public double getLastSalePrice() {
+		return lastSalePrice;
+	}
+	public void setLastSalePrice(double lastSalePrice) {
+		this.lastSalePrice = lastSalePrice;
+	}
+	public double getLastStockPrice() {
+		return lastStockPrice;
+	}
+	public void setLastStockPrice(double lastStockPrice) {
+		this.lastStockPrice = lastStockPrice;
+	}
+	public int getGoodsNum() {
+		return goodsNum;
+	}
+	public void setGoodsNum(int goodsNum) {
+		this.goodsNum = goodsNum;
 	}
 }

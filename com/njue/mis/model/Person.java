@@ -4,10 +4,12 @@
 
 package com.njue.mis.model;
 
+import java.io.Serializable;
+
 import com.njue.mis.common.ValidationManager;
 
 
-public abstract class Person
+public abstract class Person implements Serializable
 {
 	private String id;  //编号
 	private String name;  //全称
@@ -21,6 +23,7 @@ public abstract class Person
 	private String bank;  //开户银行
 	private String account;  //开户账号
 	private int available;  //状态 非0代表可用
+	private int cateId;
 
 	public Person()
 	{
@@ -62,6 +65,21 @@ public abstract class Person
 		this.bank = bank;
 		this.account = account;
 		this.available = available;
+	}
+	
+	public void update(Person person){
+		this.id = person.id;
+		this.name = person.name;
+		this.zip = person.zip;
+		this.address = person.address;
+		this.telephone = person.telephone;
+		this.fax = person.fax;
+		this.connectionPerson = person.connectionPerson;
+		this.phone = person.phone;
+		this.email = person.email;
+		this.bank = person.bank;
+		this.account = person.account;
+		this.available = person.available;
 	}
 	public String getId()
 	{
@@ -158,6 +176,12 @@ public abstract class Person
 	public int getAvailable()
 	{
 		return available;
+	}
+	public void setPreferId(int preferId){
+		this.cateId = preferId;
+	}
+	public int getPreferId(){
+		return cateId;
 	}
 	/**
 	 * 表格控件调用

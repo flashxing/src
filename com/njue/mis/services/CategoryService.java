@@ -1,21 +1,21 @@
 package com.njue.mis.services;
 
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Vector;
 
-import org.apache.log4j.Logger;
 
 import com.njue.mis.dao.CategoryDao;
-import com.njue.mis.handler.CategoryServiceHandler;
 import com.njue.mis.model.Category;
+import com.njue.mis.model.Customer;
+import com.njue.mis.model.Goods;
 import com.njue.mis.server.Server;
 
-public class CategoryService extends UnicastRemoteObject implements CategoryServiceHandler{
+public class CategoryService{
 	private CategoryDao categoryDao = new CategoryDao();
-	public CategoryService() throws RemoteException {
-		super();
+	private CustomerService customerService = new CustomerService();
+	private GoodsService goodsService = new GoodsService();
+	public CategoryService(){
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -23,8 +23,7 @@ public class CategoryService extends UnicastRemoteObject implements CategoryServ
 	 * (non-Javadoc)
 	 * @see com.njue.mis.handler.CategoryServiceHandler#addCategory(com.njue.mis.model.Category)
 	 */
-	@Override
-	public boolean addCategory(Category category) throws RemoteException {
+	public int addCategory(Category category){
 		// TODO Auto-generated method stub
 		Server.logger.info("add a category "+category);
 		return categoryDao.saveCategory(category);
@@ -33,8 +32,7 @@ public class CategoryService extends UnicastRemoteObject implements CategoryServ
 	 * (non-Javadoc)
 	 * @see com.njue.mis.handler.CategoryServiceHandler#delCategory(com.njue.mis.model.Category)
 	 */
-	@Override
-	public boolean delCategory(Category category) throws RemoteException {
+	public boolean delCategory(Category category){
 		// TODO Auto-generated method stub
 		Server.logger.info("delete a category "+category);
 		return categoryDao.delCategory(category);
@@ -43,8 +41,7 @@ public class CategoryService extends UnicastRemoteObject implements CategoryServ
 	 * (non-Javadoc)
 	 * @see com.njue.mis.handler.CategoryServiceHandler#updateCategory(com.njue.mis.model.Category)
 	 */
-	@Override
-	public boolean updateCategory(Category category) throws RemoteException {
+	public boolean updateCategory(Category category){
 		// TODO Auto-generated method stub
 		Server.logger.info("update a category "+category);
 		return categoryDao.updateCategory(category);
@@ -53,18 +50,33 @@ public class CategoryService extends UnicastRemoteObject implements CategoryServ
 	 * (non-Javadoc)
 	 * @see com.njue.mis.handler.CategoryServiceHandler#getAllCategory()
 	 */
-	@Override
-	public List<Category> getAllCategory() throws RemoteException {
+	public List<Category> getAllGoodsCategory() {
 		// TODO Auto-generated method stub
-		return categoryDao.getAll();
+		return categoryDao.getAllGoodsCategory();
+	}
+	public List<Category> getAllCustomerCategory(){
+		return categoryDao.getAllCustomerCategory();
 	}
 	/*
 	 * (non-Javadoc)
 	 * @see com.njue.mis.handler.CategoryServiceHandler#getCategory(int)
 	 */
-	@Override
-	public Category getCategory(int cate_id) throws RemoteException {
+	public Category getGoodsCategory(int cate_id) {
 		// TODO Auto-generated method stub
-		return categoryDao.getCategory(cate_id);
+		return categoryDao.getGoodsCategory(cate_id);
+	}
+	
+	public Category getCustomerCategory(int cate_id){
+		return categoryDao.getCustomerCategory(cate_id);
+	}
+
+	public boolean categoryHasCustomer(int cateId) {
+		// TODO Auto-generated method stub
+		Vector<Customer> vec = customerService.getAllCustomerByCategory(cateId);
+		return (vec!=null)&&(vec.size()>0);
+	}
+	public boolean categoryHasGoods(int cateId){
+		Vector<Goods> vec = goodsService.getAllGoodsByCateId(cateId);
+		return (vec!=null)&&(vec.size()>0);
 	}
 }

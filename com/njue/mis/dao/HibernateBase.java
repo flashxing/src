@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 
 public abstract class HibernateBase 
 {
@@ -18,17 +20,21 @@ public abstract class HibernateBase
 	}
 	
 	// 帮助方法
-	@SuppressWarnings("deprecation")
 	protected void initHibernate() throws HibernateException {
 		// 装载配置，构造SessionFactory对象
-		sessionFactory = new Configuration().configure().buildSessionFactory();
+		Configuration cfg = new Configuration();
+		cfg.configure();
+		 ServiceRegistry servicer = new ServiceRegistryBuilder()
+		.applySettings(cfg.getProperties()).buildServiceRegistry();
+		 sessionFactory = cfg.buildSessionFactory(servicer);
+//		sessionFactory = new Configuration().configure().buildSessionFactory();
+		session = sessionFactory.openSession();
 	}
 
 	/**
 	 *开始一个hibernate事务
 	 */
 	protected void beginTransaction() throws HibernateException {
-		session = sessionFactory.openSession();
 		transaction = session.beginTransaction();
 	}
 
@@ -42,6 +48,10 @@ public abstract class HibernateBase
 			//如果是只读的操作，不需要commit这个事务。
 			transaction.rollback();
 		}
+//		session.close();
+	}
+	@Override
+	protected void finalize() throws Throwable{
 		session.close();
 	}
 }

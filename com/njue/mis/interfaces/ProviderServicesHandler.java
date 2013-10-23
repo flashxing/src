@@ -1,7 +1,7 @@
 /**
  * 供应商服务接口
  */
-package com.njue.mis.handler;
+package com.njue.mis.interfaces;
 
 import java.util.Vector;
 

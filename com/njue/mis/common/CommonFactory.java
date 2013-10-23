@@ -3,14 +3,14 @@
  */
 package com.njue.mis.common;
 
-import com.njue.mis.handler.CustomerServicesHandler;
-import com.njue.mis.handler.GoodsServicesHandler;
-import com.njue.mis.handler.OperatorServicesHandler;
-import com.njue.mis.handler.PortInServicesHandle;
-import com.njue.mis.handler.PortOutServicesHandle;
-import com.njue.mis.handler.ProviderServicesHandler;
-import com.njue.mis.handler.SalesBackServicesHandler;
-import com.njue.mis.handler.SalesInServicesHandler;
+import com.njue.mis.interfaces.CustomerControllerInterface;
+import com.njue.mis.interfaces.GoodsControllerInterface;
+import com.njue.mis.interfaces.OperatorControllerInterface;
+import com.njue.mis.interfaces.PortInControllerInterface;
+import com.njue.mis.interfaces.PortOutServicesHandle;
+import com.njue.mis.interfaces.ProviderServicesHandler;
+import com.njue.mis.interfaces.SalesBackServicesHandler;
+import com.njue.mis.interfaces.SalesInServicesHandler;
 
 public class CommonFactory
 {
@@ -18,11 +18,11 @@ public class CommonFactory
 	 * 获取GoodsService类的对象
 	 * @return GoodsService类的对象
 	 */
-	public static GoodsServicesHandler getGoodsServices()
+	public static GoodsControllerInterface getGoodsServices()
 	{
 		try
 		{
-			return (GoodsServicesHandler)Class.forName(Constants.GOODS_SERVICES_CLASS).newInstance();
+			return (GoodsControllerInterface)Class.forName(Constants.GOODS_SERVICES_CLASS).newInstance();
 		}
 		catch (Exception e)
 		{
@@ -35,11 +35,11 @@ public class CommonFactory
 	 * 获取CustomerServices类的对象
 	 * @return CustomerServices类的对象
 	 */
-	public static CustomerServicesHandler getCustomerServices()
+	public static CustomerControllerInterface getCustomerServices()
 	{
 		try
 		{
-			return (CustomerServicesHandler)Class.forName(Constants.CUSTOMER_SERVICES_CLASS).newInstance();
+			return (CustomerControllerInterface)Class.forName(Constants.CUSTOMER_SERVICES_CLASS).newInstance();
 		}
 		catch (Exception e)
 		{
@@ -67,11 +67,11 @@ public class CommonFactory
 	 * 获取OperatorServices类的对象
 	 * @return OperatorServices类的对象
 	 */
-	public static OperatorServicesHandler getOperatorServices()
+	public static OperatorControllerInterface getOperatorServices()
 	{
 		try
 		{
-			return (OperatorServicesHandler)Class.forName(Constants.OPERATOR_SERVICES_CLASS).newInstance();
+			return (OperatorControllerInterface)Class.forName(Constants.OPERATOR_SERVICES_CLASS).newInstance();
 		}
 		catch (Exception e)
 		{
@@ -83,11 +83,11 @@ public class CommonFactory
 	 * 获取PortInServices类的对象
 	 * @return PortInServices类的对象
 	 */
-	public static PortInServicesHandle getPortInServices()
+	public static PortInControllerInterface getPortInServices()
 	{
 		try
 		{
-			return (PortInServicesHandle)Class.forName(Constants.PORTIN_SERVICES_CLASS).newInstance();
+			return (PortInControllerInterface)Class.forName(Constants.PORTIN_SERVICES_CLASS).newInstance();
 		}
 		catch (Exception e)
 		{

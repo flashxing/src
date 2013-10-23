@@ -1,22 +1,15 @@
-/**
- * 操作员服务类
- */
 package com.njue.mis.services;
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
 
 import com.njue.mis.dao.OperatorDAO;
-import com.njue.mis.handler.OperatorServicesHandler;
 import com.njue.mis.model.Operator;
 
-public class OperatorServices extends UnicastRemoteObject implements OperatorServicesHandler 
+public class OperatorServices
 {
-    OperatorDAO operatorDAO=null;
-	public OperatorServices() throws RemoteException
+	OperatorDAO operatorDAO=null;
+	public OperatorServices()
 	{
-		super();
 	}
 	
 	public boolean addOperator(Operator operator)

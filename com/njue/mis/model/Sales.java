@@ -6,8 +6,8 @@ package com.njue.mis.model;
 
 import com.njue.mis.common.CommonFactory;
 import com.njue.mis.common.ValidationManager;
-import com.njue.mis.handler.CustomerServicesHandler;
-import com.njue.mis.handler.GoodsServicesHandler;
+import com.njue.mis.interfaces.CustomerControllerInterface;
+import com.njue.mis.interfaces.GoodsControllerInterface;
 
 public abstract class Sales
 {
@@ -124,14 +124,14 @@ public abstract class Sales
 			return ValidationManager.changeNull(getGoodsId());
 		case 2:
 			{
-				GoodsServicesHandler handler=CommonFactory.getGoodsServices();
-				Goods goods=handler.getGoodsInfo(getGoodsId());
+				GoodsControllerInterface handler=CommonFactory.getGoodsServices();
+				Goods goods=handler.getGoods(getGoodsId());
 				return  ValidationManager.changeNull(goods.getGoodsName());
 			}
 		case 3:
 			{
-				GoodsServicesHandler handler=CommonFactory.getGoodsServices();
-				Goods goods=handler.getGoodsInfo(getGoodsId());
+				GoodsControllerInterface handler=CommonFactory.getGoodsServices();
+				Goods goods=handler.getGoods(getGoodsId());
 				return  ValidationManager.changeNull(goods.getPrice());
 			}
 		case 4:
@@ -142,7 +142,7 @@ public abstract class Sales
 			return ValidationManager.changeNull(getCustomerId());
 		case 7:
 			{
-				CustomerServicesHandler handler=CommonFactory.getCustomerServices();
+				CustomerControllerInterface handler=CommonFactory.getCustomerServices();
 				Customer customer=handler.getCustomerInfo(getCustomerId());
 				return ValidationManager.changeNull(customer.getName());
 			}

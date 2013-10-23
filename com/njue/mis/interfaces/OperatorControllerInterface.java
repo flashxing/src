@@ -1,7 +1,7 @@
 /**
  * 操作员服务接口
  */
-package com.njue.mis.handler;
+package com.njue.mis.interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import com.njue.mis.model.Operator;
 
-public interface OperatorServicesHandler extends Remote
+public interface OperatorControllerInterface extends Remote
 {
 	/**
 	 * 查询用户名和密码是否正确

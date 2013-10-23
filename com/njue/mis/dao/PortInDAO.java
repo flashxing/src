@@ -3,14 +3,16 @@
  */
 package com.njue.mis.dao;
 
-import java.sql.ResultSet;
 import java.util.Vector;
 
-import com.njue.mis.common.Constants;
-import com.njue.mis.common.ErrorManager;
-import com.njue.mis.model.PortIn;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
-public class PortInDAO extends ManagerDAO
+import com.njue.mis.model.PortIn;
+import com.njue.mis.server.Server;
+
+public class PortInDAO extends CommonObjectDao
 {
 	public PortInDAO()
 	{
@@ -21,118 +23,105 @@ public class PortInDAO extends ManagerDAO
 	 * @param portIn 封装好的PortIn对象
 	 * @return 执行结果
 	 */
-	public boolean addPortIn(PortIn portIn)
+	public String addPortIn(PortIn portIn)
 	{
-		boolean result=false;
-		try
-		{
-			String sql="insert into tb_inport(id,providerid,paytype,inporttime,operateperson,number,price,comment,goodsid) values(?,?,?,?,?,?,?,?,?)";
-			Object[] params=new Object[]{portIn.getId(),portIn.getProviderId(),portIn.getPayType(),
-					                     portIn.getTime(),portIn.getOperatePerson(),portIn.getNumber(),
-					                     portIn.getPrice(),portIn.getClass(),portIn.getGoodsId()};
-			result=super.add(sql, params);
-		}
-		catch (Exception e)
-		{
-			ErrorManager.printError("PortInDAO.addPortIn", e);
-		}
-		return result;
+		String id =(String) super.save(portIn);
+		return id;
+	}
+	public boolean deletePortIn(PortIn portIn){
+		return super.delete(portIn);
 	}
 	
-	/**
-	 * 查询数据库中满足条件的进货记录
-	 * @param field 查询的字段
-	 * @param value 满足的值
-	 * @return 查询结果
-	 */
-	public Vector<PortIn> searchPortIn(String field,String value)
-	{
-		Vector<PortIn> result=new Vector<PortIn>();
-		try
-		{
-			String sql="{call pr_searchPortIn(?,?)}";
-			Object[] params=new Object[]{field,value};
-			ResultSet rs=manager.executeQuery(sql, params, Constants.CALL_TYPE);
-			while(rs.next())
-			{
-				PortIn portIn=new PortIn(rs.getString("id"),rs.getString("providerid"),rs.getString("goodsid"),
-									  rs.getString("paytype"),rs.getInt("number"),rs.getDouble("price"),
-									  rs.getString("inporttime"),rs.getString("operateperson"),rs.getString("comment"));
-				result.add(portIn);
-			}
-			manager.closeDB();
-		}
-		catch (Exception e)
-		{
-			ErrorManager.printError("PortInDAO.searchPortIn", e);
-		}
-		return result;
-	}
+//	/**
+//	 * 查询数据库中满足条件的进货记录
+//	 * @param field 查询的字段
+//	 * @param value 满足的值
+//	 * @return 查询结果
+//	 */
+//	public Vector<PortIn> searchPortIn(String field,String value)
+//	{
+//		Vector<PortIn> result=new Vector<PortIn>();
+//		try
+//		{
+//			String sql="{call pr_searchPortIn(?,?)}";
+//			Object[] params=new Object[]{field,value};
+//			ResultSet rs=manager.executeQuery(sql, params, Constants.CALL_TYPE);
+//			while(rs.next())
+//			{
+//				PortIn portIn=new PortIn(rs.getString("id"),rs.getString("providerid"),rs.getString("goodsid"),
+//									  rs.getString("paytype"),rs.getInt("number"),rs.getDouble("price"),
+//									  rs.getString("inporttime"),rs.getString("operateperson"),rs.getString("comment"));
+//				result.add(portIn);
+//			}
+//			manager.closeDB();
+//		}
+//		catch (Exception e)
+//		{
+//			ErrorManager.printError("PortInDAO.searchPortIn", e);
+//		}
+//		return result;
+//	}
 	/**
 	 * 查询数据库中满足条件的进货记录
 	 * @param beginTime 查询的开始时间
 	 * @param endTime  查询的结束时间
 	 * @return 查询结果集
 	 */
+	@SuppressWarnings({ "unchecked", "finally" })
 	public Vector<PortIn> searchPortInByTime(String beginTime,String endTime)
 	{
-		Vector<PortIn> result=new Vector<PortIn>();
-		try
-		{
-			String sql="{call pr_searchThroughTime(?,?,?,?)}";
-			Object[] params=new Object[]{"tb_inport","inporttime",beginTime,endTime};
-			ResultSet rs=manager.executeQuery(sql, params, Constants.CALL_TYPE);
-			while(rs.next())
-			{
-				PortIn portIn=new PortIn(rs.getString("id"),rs.getString("providerid"),rs.getString("goodsid"),
-									  rs.getString("paytype"),rs.getInt("number"),rs.getDouble("price"),
-									  rs.getString("inporttime"),rs.getString("operateperson"),rs.getString("comment"));
-				result.add(portIn);
+		Session session = null;
+		Vector<PortIn> list = null;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			String sql = "from PortIn where inporttime>'"+beginTime+"' and inporttime<'"+endTime+"'";
+			Query query = session.createQuery(sql);
+			list = new Vector<PortIn>(query.list());
+			session.getTransaction().commit();
+		}catch(HibernateException ex){
+			ex.printStackTrace();
+			Server.logger.warn("get all PortIn by time "+" failed");
+			if(session != null){
+				session.getTransaction().rollback();
 			}
-			manager.closeDB();
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return list;
 		}
-		catch (Exception e)
-		{
-			ErrorManager.printError("PortInDAO.searchPortIn", e);
-		}
-		return result;
 	}
+	
 	/**
 	 * 获取所有的进货信息
 	 * @return 进货信息集合
 	 */
+	@SuppressWarnings({ "unchecked", "finally" })
 	public Vector<PortIn> getAllPortIn()
 	{
-        Vector<PortIn> result=new Vector<PortIn>();
-		try
-		{
-			String sql="{call pr_getAllPortIn()}";
-			ResultSet rs=manager.executeQuery(sql, null, Constants.CALL_TYPE);
-			while(rs.next())
-			{
-				PortIn portIn=new PortIn(rs.getString("id"),rs.getString("providerid"),rs.getString("goodsId"),
-											rs.getString("paytype"),rs.getInt("number"),rs.getDouble("price"),
-											rs.getString("inporttime"),rs.getString("operateperson"),rs.getString("comment"));
-				result.add(portIn);
+		Session session = null;
+		Vector<PortIn> list = null;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			String sql = "from PortIn order by inporttime";
+			Query query = session.createQuery(sql);
+			list = new Vector<PortIn>(query.list());
+			session.getTransaction().commit();
+		}catch(HibernateException ex){
+			ex.printStackTrace();
+			Server.logger.warn("get all PortIn "+" failed");
+			if(session != null){
+				session.getTransaction().rollback();
 			}
-			manager.closeDB();
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return list;
 		}
-		catch (Exception e)
-		{
-			ErrorManager.printError("PortInDAO.PortIn", e);
-		}
-		return result;
 	}
-	/**
-	 * 判断进货编号是否存在
-	 * @param id 
-	 * @return
-	 */
-	public boolean isExited(String id)
-	{
-		return super.isExited("tb_inport", id);
-	}
-	
 //	public static void main(String[] args)
 //	{
 //		PortInDAO in=new PortInDAO();

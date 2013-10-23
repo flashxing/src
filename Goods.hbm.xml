@@ -9,26 +9,32 @@
  <class name="com.njue.mis.model.Goods" table="tb_goods">
   <id name="id" column="id" type="string">
   </id>
-  <property name="goodsname" column="goodsname" type="string"
+  <property name="goodsName" column="goodsname" type="string"
    not-null="true" />
-  <property name="produceplace" column="produceplace" type="string"
+  <property name="producePlace" column="produceplace" type="string"
    not-null="true" />
   <property name="size" column="size" type="string"
    not-null="false" />
-  <property name="package" column="package" type="string"
+  <property name="_package" column="package" type="string"
       not-null="false"/>
-  <property name="productcode" column="productcode" type="string"
+  <property name="productCode" column="productcode" type="string"
       not-null="false"/>
-  <property name="promitcode" column="promitcode" type="string"
+  <property name="promitCode" column="promitcode" type="string"
       not-null="false"/>
   <property name="description" column="description" type="string"
       not-null="false"/>
-  <property name="price" column="price" type="float"
+  <property name="price" column="price" type="double"
       not-null="true"/>
-  <property name="providerid" column="providerid" type="string"
+  <property name="providerId" column="providerid" type="string"
       not-null="true"/>
-  <property name="available" column="available" type="int"
+  <property name="cateId" column="cateid" type="int"
       not-null="true"/>
+  <property name="lastSalePrice" column="last_sale_price" type="double"
+      not-null="false"/>
+  <property name="lastStockPrice" column="last_stock_price" type="double"
+      not-null="false"/>
+  <property name="goodsNum" column="goods_num" type="int"
+      not-null="false"/>
  </class>
  
 </hibernate-mapping>
